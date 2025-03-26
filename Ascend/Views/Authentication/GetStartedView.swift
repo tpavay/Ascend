@@ -9,7 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct GetStartedView: View {
-    /// The model context used to persist user when they first user the app
+    /// The model context used to persist the anonymous user when they they first open the app
     @Environment(\.modelContext) private var modelContext: ModelContext
     
     var body: some View {
@@ -35,6 +35,7 @@ struct GetStartedView: View {
     
     var content: some View {
         VStack {
+            // Push this stack to the bottom
             Spacer()
             titleAndSubtitle
             ctaButton
@@ -59,22 +60,11 @@ struct GetStartedView: View {
     
     /// Call-to-action button that creates a new anonymous user when pressed
     var ctaButton: some View {
-        // CTA Button
-        Button {
-            createNewAnonymousUser()
-        }
-        label: {
-            HStack {
-                Text("Get Started")
-                Image(systemName: "chevron.right")
-            }
-            .font(.title3.weight(.bold))
-            .foregroundStyle(.white)
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(.accentPrimary)
-            .cornerRadius(10)
-        }
+        CustomTextButton(buttonText: "Get Started",
+                         buttonTextColor: .white,
+                         fillColor: .accentPrimary,
+                         isBorderedButton: false,
+                         action: createNewAnonymousUser)
     }
     
     /// Function that creates a new AscendUser and inserts it into the SwiftData database
