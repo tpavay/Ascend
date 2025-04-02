@@ -25,24 +25,15 @@ struct HomeHeaderView: View {
                 Text(greetingText)
                     .font(.title2)
                     .fontWeight(.semibold)
-                    .foregroundColor(.gray)
-//                VStack(alignment: .leading) {
-//                    Text(greetingText)
-//                        .font(.subheadline)
-//                        .fontWeight(.semibold)
-//                        .foregroundColor(.gray)
-//                    Text("1000")
-//                        .font(.largeTitle)
-//                        .fontWeight(.semibold)
-//                    Text("Steps this month")
-//                        .font(.footnote)
-//                }
+                    .foregroundColor(.primary)
             }
             Spacer()
             HStack(spacing: 16) {
                 NavigationLink(destination: LogStairmasterWorkoutMainView()) {
                     Image(systemName: "plus.square")
+                        
                 }
+                .foregroundStyle(.primary)
                 Image(systemName: "bell")
                     .onTapGesture {
                         isImportWorkoutSheetPresented = true
@@ -51,10 +42,10 @@ struct HomeHeaderView: View {
             .font(.title2)
         }
         .padding(.horizontal)
-        .background(.white)
-        .sheet(isPresented: $isImportWorkoutSheetPresented) {
-            Text("Import Workouts View")
-        }
+        .background(Color(UIColor.systemBackground))
+        .popover(isPresented: $isImportWorkoutSheetPresented, content: {
+            Text("Import workouts")
+        })
         .onAppear {
             let timeOfDayText = "Good \(Date.getTimeOfDay().rawValue)"
             greetingText = currentUser.firstName != nil && currentUser.firstName != "" ? "\(timeOfDayText) \(currentUser.firstName!)" : timeOfDayText
@@ -63,5 +54,14 @@ struct HomeHeaderView: View {
 }
 
 #Preview {
+    NavigationStack {
+        HomeHeaderView(currentUser: AscendUser())
+            .preferredColorScheme(.light)
+    }
+
+}
+
+#Preview {
     HomeHeaderView(currentUser: AscendUser())
+        .preferredColorScheme(.dark)
 }

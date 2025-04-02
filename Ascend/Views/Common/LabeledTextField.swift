@@ -30,7 +30,7 @@ struct LabeledTextField: View {
                     .padding()
                     .overlay(content: {
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(focusedField == field ? .accentPrimary : Color.gray.opacity(0.3), lineWidth: 1)
+                            .stroke(focusedField == field ? .accentPrimary : Color.secondary.opacity(0.3), lineWidth: 1)
                     })
                     .focused($focusedField, equals: field)
                     .autocorrectionDisabled()

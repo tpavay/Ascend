@@ -25,7 +25,8 @@ struct ProfilePictureView: View {
                     .scaledToFit()
                     .frame(height: 25)
                     .padding()
-                    .background(.accentPrimary.opacity(0.3))
+                    .background(.accentPrimary.opacity(0.2))
+                    .foregroundStyle(.accentPrimary)
                     .clipShape(Circle())
             }
             .buttonStyle(PlainButtonStyle())

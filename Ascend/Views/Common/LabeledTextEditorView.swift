@@ -25,6 +25,7 @@ struct LabeledTextEditorView: View {
                         )
                 }
                 .frame(height: 125)
+                .scrollContentBackground(.hidden) // DO NOT REMOVE this gets rid of the ugly black box when in dark mode
                 .focused($focusedField, equals: .notes)
                 .autocorrectionDisabled()
             if focusedField != .notes && notes.isEmpty {
@@ -44,4 +45,15 @@ struct LabeledTextEditorView: View {
     @Previewable @FocusState var focusedField: LogStairMasterWorkoutFormField?
     
     LabeledTextEditorView(notes: $notes, field: .notes, focusedField: $focusedField)
+        .preferredColorScheme(.light)
+}
+
+#Preview {
+    @Previewable @State var notes: String = ""
+    @Previewable @FocusState var focusedField: LogStairMasterWorkoutFormField?
+    Form {
+        LabeledTextEditorView(notes: $notes, field: .notes, focusedField: $focusedField)
+            .preferredColorScheme(.dark)
+    }
+
 }
