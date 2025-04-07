@@ -47,11 +47,11 @@ class StairMasterWorkout {
         workoutName: String,
         date: Date = Date(),
         duration: TimeInterval,
-        floorsClimbed: Int?,
-        totalSteps: Int?,
-        caloriesBurned: Double?,
-        avgHeartRate: Double?,
-        maxHeartRate: Double?,
+        floorsClimbed: Int? = nil,
+        totalSteps: Int? = nil,
+        caloriesBurned: Double? = nil,
+        avgHeartRate: Double? = nil,
+        maxHeartRate: Double? = nil,
         //intensity: WorkoutIntensityLevel?,
         notes: String = "") {
         self.id = id

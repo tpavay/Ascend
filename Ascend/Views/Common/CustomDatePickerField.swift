@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct CustomDatePickerField: View {
     // MARK: - Properties
     
@@ -24,7 +22,6 @@ struct CustomDatePickerField: View {
     /// Customization properties
     var displayFormat: DateFormatter
     var pickerComponents: DatePickerComponents = [.date, .hourAndMinute]
-    var accentColor: Color = .accentPrimary
     
     // MARK: - Initialization
     
@@ -69,7 +66,7 @@ struct CustomDatePickerField: View {
                 
                 // Calendar icon
                 Image(systemName: "calendar")
-                    .foregroundStyle(accentColor)
+                    .foregroundStyle(.accentPrimary)
                     .padding(.horizontal, 8)
             }
             .contentShape(Rectangle()) // Make the entire HStack tappable
@@ -85,65 +82,98 @@ struct CustomDatePickerField: View {
                             .stroke(Color.primary.opacity(0.1), lineWidth: 1)
                     )
             )
-            .popover(isPresented: $isDatePickerPresented, arrowEdge: .top) {
-                VStack(spacing: 0) {
-                    // Header
-                    Text("Select Date")
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                        .padding(.top, 16)
-                        .padding(.bottom, 8)
-                    
-                    Divider()
-                    
-                    // Date Picker
-                    DatePicker(
-                        "",
-                        selection: $date,
-                        displayedComponents: pickerComponents
-                    )
-                    .datePickerStyle(.wheel)
-                    .labelsHidden()
-                    .padding()
-                    
-                    Divider()
-                    
-                    // Buttons
-                    HStack(spacing: 0) {
-                        Button("Cancel") {
-                            isDatePickerPresented = false
-                        }
-                        .frame(maxWidth: .infinity)
-                        
-                        Divider()
-                            .frame(height: 44)
-                        
-                        Button("OK") {
-                            isDatePickerPresented = false
-                        }
-                        .foregroundColor(accentColor)
-                        .frame(maxWidth: .infinity)
-                    }
-                    .font(.system(size: 16, weight: .medium))
-                }
-                .presentationCompactAdaptation(.popover)
-                .frame(width: 300)
-                .background(Color(UIColor.systemBackground))
-                .cornerRadius(12)
-                .shadow(radius: 8)
+            .sheet(isPresented: $isDatePickerPresented) {
+                DatePickerSheetContent(
+                    date: $date,
+                    isPresented: $isDatePickerPresented,
+                    pickerComponents: pickerComponents
+                )
             }
+            .prefersPersistentSystemOverlaysHidden()
         }
     }
 }
 
+// Separate view for the sheet content
+struct DatePickerSheetContent: View {
+    @Binding var date: Date
+    @Binding var isPresented: Bool
+    var pickerComponents: DatePickerComponents
+    
+    // Store the original date when the sheet opens
+    @State private var tempDate: Date = Date()
+
+    var body: some View {
+        VStack(spacing: 0) {
+            // Header
+            Text("Select Date")
+                .frame(maxWidth: .infinity)
+                .padding(.top, 50)
+                .font(.headline)
+                .fontWeight(.semibold)
+
+            // Date Picker - using tempDate instead of directly binding to the real date
+            DatePicker(
+                "",
+                selection: $tempDate,
+                in: Calendar.current.date(byAdding: .year, value: -1, to: date)!...date,
+                displayedComponents: pickerComponents
+            )
+            .datePickerStyle(.wheel)
+            .labelsHidden()
+            Spacer()
+            Divider()
+            
+            // Button row
+            HStack {
+                Button(action: {
+                    // Close sheet without applying changes
+                    // No need to modify date since we were working with tempDate
+                    isPresented = false
+                }) {
+                    Text("Cancel")
+                        .font(.headline)
+                        .foregroundStyle(Color(UIColor.label))
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 56)
+                }
+                
+                // Properly styled vertical divider
+                Rectangle()
+                    .fill(Color(UIColor.separator))
+                    .frame(width: 0.5, height: 56)
+                
+                Button(action: {
+                    // Apply the temp date to the actual binding and close sheet
+                    date = tempDate
+                    isPresented = false
+                }) {
+                    Text("OK")
+                        .font(.headline)
+                        .foregroundStyle(.accentPrimary)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 56)
+                }
+            }
+        }
+        .edgesIgnoringSafeArea(.bottom)
+        .presentationDetents([.fraction(0.4)])
+        .presentationDragIndicator(.visible)
+    }
+}
+
+// MARK: - Preview
 #Preview("Light Mode") {
     @Previewable @State var date = Date()
-    
-    VStack(spacing: 20) {
-        CustomDatePickerField(date: $date, label: "Workout Date")
-        CustomDatePickerField(date: $date, label: "Workout Time", pickerComponents: [.hourAndMinute])
+    Form {
+        ScrollView {
+            VStack(spacing: 20) {
+                CustomDatePickerField(date: $date, label: "Workout Date")
+                CustomDatePickerField(date: $date, label: "Workout Time", pickerComponents: [.hourAndMinute])
+            }
+            .padding()
+        }
     }
-    .padding()
 }
 
 #Preview("Dark Mode") {

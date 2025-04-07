@@ -10,7 +10,6 @@ import SwiftUI
 struct HomeMainView: View {
     @Query private var users: [AscendUser]
     @Query private var workouts: [StairMasterWorkout]
-    
     private var currentUser: AscendUser? {
         return users.first!
     }
@@ -18,7 +17,6 @@ struct HomeMainView: View {
     var body: some View {
         NavigationStack {
             if workouts.isEmpty {
-                
                     ContentUnavailableView {
                         Circle()
                             .frame(height: 55)
@@ -64,13 +62,15 @@ struct HomeMainView: View {
                 ScrollView {
                     HomeChartView()
                     Section(header: Text("Recent Workouts").font(.title3)) {
-                        
-    //                        StairmasterWorkoutCardView(startTime: Date.now.formatted(.dateTime.hour().minute()), dateText: "Today", duration: "25", steps: 1500, floorsClimbed: 80)
-    //                        StairmasterWorkoutCardView(startTime: Date.now.formatted(.dateTime.hour().minute()), dateText: "Yesterday", duration: "15", steps: 1000, floorsClimbed: 50)
-    //                        StairmasterWorkoutCardView(startTime: Date.now.formatted(.dateTime.hour().minute()), dateText: "Feb 19", duration: "10", steps: 1000, floorsClimbed: 50)
+                        ForEach(workouts) { workout in
+                            StairmasterWorkoutCardView(duration: CGFloat(workout.duration), steps: workout.totalSteps, floorsClimbed: workout.floorsClimbed, date: workout.date)
+                        }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
+                }
+                .safeAreaInset(edge: .top) {
+                    HomeHeaderView(currentUser: currentUser!)
                 }
             }
         }

@@ -6,7 +6,6 @@
 //
 
 import Observation
-import FirebaseAuth
 import SwiftData
 import SwiftUI // Access to @AppStorage
 
@@ -25,7 +24,6 @@ import SwiftUI // Access to @AppStorage
 class AuthService {
     
     private let modelContext: ModelContext
-    var user: User?
     var authState: AuthState = .loading
     
     init(modelContext: ModelContext) {

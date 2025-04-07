@@ -16,7 +16,9 @@ enum LogStairMasterWorkoutFormField: Hashable {
 }
 
 struct LogStairmasterWorkoutMainView: View {
+    @Environment(\.modelContext) var modelContext
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.dismiss) var dismiss
     @State private var date: Date = Date()
     @State private var workoutName: String = ""
     @State private var duration: String = ""
@@ -48,15 +50,49 @@ struct LogStairmasterWorkoutMainView: View {
                     }
                     .padding(.horizontal, 4) // Add padding so border sides are fully visible
                 }
-                CustomTextButton(buttonText: "Submit", buttonTextColor: .white, fillColor: .accentPrimary, action: { print("Submitted") })
+                CustomTextButton(buttonText: "Submit", buttonTextColor: .white, fillColor: .accentPrimary, action: { submit() })
+                
             }.padding(.horizontal, -20)
             .scrollContentBackground(.hidden)
             .background(colorScheme == .light ? .clear: .darkModeFormBackground)
-            .onTapGesture { // Unfocus any field when form is tapped
-                focusedField = nil
-            }
+//            .onTapGesture { // Unfocus any field when form is tapped
+//                focusedField = nil
+//            } // This causes the submit button to not be able to be tapped
             .navigationTitle("Log Workout")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .keyboard) {
+                    HStack {
+                        Spacer()
+                        Image(systemName: "keyboard.chevron.compact.down")
+                            .foregroundStyle(.accentPrimary)
+                            .padding(.trailing)
+                            .onTapGesture {
+                                hideKeyboard()
+                            }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func submit() {
+        if duration.isEmpty == nil {
+            
+        }
+        let convertedDuration = duration.toTimeInterval()
+        
+       
+        let stairMasterWorkout = StairMasterWorkout(workoutName: workoutName, date: date, duration: convertedDuration, totalSteps: Int(totalSteps) ?? 0, notes: notes)
+        modelContext.insert(stairMasterWorkout)
+        
+        // Save changes (optional but recommended)
+        do {
+            try modelContext.save()
+            // Set navigation flag to true after successful save
+            dismiss()
+        } catch {
+            print("Error saving workout: \(error.localizedDescription)")
         }
     }
     
