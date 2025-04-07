@@ -20,4 +20,13 @@ enum StairmasterMetric: CaseIterable {
             case .durationClimbed: return "Duration climbed"
         }
     }
+    
+    var imageText: String {
+        switch self {
+        case .stepsClimbed: return "figure.stair.stepper"
+        case .floorsClimbed: return "building"
+        case .caloriesBurned: return "flame"
+        case .durationClimbed: return "clock"
+        }
+    }
 }
