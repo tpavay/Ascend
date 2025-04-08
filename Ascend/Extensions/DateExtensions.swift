@@ -75,6 +75,18 @@ extension Date {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, yyyy"
+        
+        // If date is within the past week, and before yesterday: output the weekday
+        // for instance "Wednesday"
+        guard let oneWeekAgo = calendar.date(byAdding: .weekOfYear, value: -1, to: .now) else {
+            // Fall back to default date if error getting one week ago
+            return dateFormatter.string(from: date)
+        }
+        
+        if (date > oneWeekAgo  && date < Date()) {
+            return date.formatted(Date.FormatStyle().weekday(.wide))
+        }
+        
         return dateFormatter.string(from: date)
     }
 }
