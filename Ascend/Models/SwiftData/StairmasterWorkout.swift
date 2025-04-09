@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-class StairMasterWorkout {
+final class StairMasterWorkout {
     /// Unique identifier of a stair master workout
     var id: UUID
 
@@ -37,6 +37,14 @@ class StairMasterWorkout {
     /// Max heart rate during the stair master workout indicated by fitness wearable. Can be null.
     var maxHeartRate: Double?
 
+    /// Raw string representing where the workout was recorded/tracked/logged
+    var workoutSource: WorkoutSource {
+        return WorkoutSource(rawValue: workoutSourcePrivate)!
+    }
+    
+    /// Private workout source that allows us to persist the `WorkoutSource`until Apple lets us persist enums
+    private var workoutSourcePrivate: String
+    
     /// Intensity of the workout. Can be null.
     //var intensity: WorkoutIntensityLevel?
 
@@ -52,6 +60,7 @@ class StairMasterWorkout {
         caloriesBurned: Double? = nil,
         avgHeartRate: Double? = nil,
         maxHeartRate: Double? = nil,
+        workoutSource: WorkoutSource,
         //intensity: WorkoutIntensityLevel?,
         notes: String = "") {
         self.id = id
@@ -63,6 +72,7 @@ class StairMasterWorkout {
         self.caloriesBurned = caloriesBurned
         self.avgHeartRate = avgHeartRate
         self.maxHeartRate = maxHeartRate
+        self.workoutSourcePrivate = workoutSource.rawValue
         //self.intensity = intensity
         self.notes = notes
     }

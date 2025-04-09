@@ -14,10 +14,10 @@ enum StairmasterMetric: CaseIterable {
     
     var description: String {
         switch self {
-            case .stepsClimbed: return "Steps climbed"
-            case .floorsClimbed: return "Floors climbed"
-            case .caloriesBurned: return "Calories burned"
-            case .durationClimbed: return "Duration climbed"
+            case .stepsClimbed: return "Steps"
+            case .floorsClimbed: return "Floors"
+            case .caloriesBurned: return "Calories"
+            case .durationClimbed: return "Duration"
         }
     }
     

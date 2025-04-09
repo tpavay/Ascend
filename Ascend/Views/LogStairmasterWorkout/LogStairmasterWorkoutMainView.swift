@@ -83,7 +83,7 @@ struct LogStairmasterWorkoutMainView: View {
         let convertedDuration = duration.toTimeInterval()
         
        
-        let stairMasterWorkout = StairMasterWorkout(workoutName: workoutName, date: date, duration: convertedDuration, totalSteps: Int(totalSteps) ?? 0, notes: notes)
+        let stairMasterWorkout = StairMasterWorkout(workoutName: workoutName, date: date, duration: convertedDuration, totalSteps: Int(totalSteps) ?? 0, workoutSource: .manualEntry, notes: notes)
         modelContext.insert(stairMasterWorkout)
         
         // Save changes (optional but recommended)

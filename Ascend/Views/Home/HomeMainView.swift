@@ -10,8 +10,19 @@ import SwiftUI
 struct HomeMainView: View {
     @Query private var users: [AscendUser]
     @Query private var workouts: [StairMasterWorkout]
+    
     private var currentUser: AscendUser? {
         return users.first!
+    }
+    
+    init() {
+        // Only retrieve the 3 most recent workouts from the database
+        // and sort them newest to oldest
+        var descriptor = FetchDescriptor<StairMasterWorkout>(
+            sortBy: [SortDescriptor(\StairMasterWorkout.date, order: .reverse)]
+        )
+        descriptor.fetchLimit = 3
+        _workouts = Query(descriptor)
     }
     
     var body: some View {
@@ -63,7 +74,7 @@ struct HomeMainView: View {
                     HomeChartView()
                     Section(header: Text("Recent Workouts").font(.title3)) {
                         ForEach(workouts) { workout in
-                            StairmasterWorkoutCardView(duration: CGFloat(workout.duration), steps: workout.totalSteps, floorsClimbed: workout.floorsClimbed, date: workout.date)
+                            StairmasterWorkoutCardView(workout: workout)
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -77,14 +88,14 @@ struct HomeMainView: View {
     }
 }
 
-#Preview {
+#Preview("Light Mode") {
     let preview = PreviewContainer([AscendUser.self, StairMasterWorkout.self])
     preview.container.mainContext.insert(AscendUser())
     return HomeMainView().modelContainer(preview.container)
         .preferredColorScheme(.light)
 }
 
-#Preview {
+#Preview("Dark Mode") {
     let preview = PreviewContainer([AscendUser.self, StairMasterWorkout.self])
     preview.container.mainContext.insert(AscendUser())
     return HomeMainView().modelContainer(preview.container)
