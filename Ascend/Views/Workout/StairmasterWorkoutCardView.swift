@@ -13,29 +13,37 @@ struct StairmasterWorkoutCardView: View {
     var body: some View {
         NavigationLink(destination: WorkoutDetailView()) {
             HStack {
-                VStack(alignment: .leading) {
-                    workoutDate
-                    durationView
-                    stepsView
-                        .padding(.bottom, 2)
-                    floorsView
-                }
-                .frame(maxHeight: .infinity)
+                leftColumnContent
                 Spacer()
-                VStack(alignment: .trailing) {
-                    workoutTime
-                    Spacer()
-                    workoutSource
-                }
-                .frame(maxHeight: .infinity)
+                rightColumnContent
+                
             }
-            .frame(height: 100, alignment: .top)
+            .frame(height: 80, alignment: .top)
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color(UIColor.systemBackground))
-                    .shadow(color: Color(UIColor.label).opacity(0.3), radius: 2)
+                    .shadow(color: Color(UIColor.label).opacity(0.1), radius: 5)
             )
+        }
+    }
+    
+    private var leftColumnContent: some View {
+        VStack(alignment: .leading) {
+            workoutDate
+            durationView
+            HStack {
+                stepsView
+                floorsView
+            }
+        }
+    }
+    
+    private var rightColumnContent: some View {
+        VStack(alignment: .trailing) {
+            workoutTime
+            Spacer()
+            workoutSource
         }
     }
     
@@ -56,6 +64,7 @@ struct StairmasterWorkoutCardView: View {
             Image("StravaText")
                 .resizable()
                 .scaledToFit()
+                .frame(width: 70)
         }
         else if workout.workoutSource == .appleFitness {
             HStack {

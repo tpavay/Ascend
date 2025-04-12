@@ -9,25 +9,19 @@ import SwiftUI
 
 struct HomeMainView: View {
     @Query private var users: [AscendUser]
-    @Query private var workouts: [StairMasterWorkout]
+    
+    /// Query for all StairMaster workouts and sort them from newest to oldest date
+    @Query(sort: \StairMasterWorkout.date, order: .reverse) private var allWorkouts: [StairMasterWorkout]
+    
+    @State private var recentWorkouts: [StairMasterWorkout] = []
     
     private var currentUser: AscendUser? {
         return users.first!
     }
     
-    init() {
-        // Only retrieve the 3 most recent workouts from the database
-        // and sort them newest to oldest
-        var descriptor = FetchDescriptor<StairMasterWorkout>(
-            sortBy: [SortDescriptor(\StairMasterWorkout.date, order: .reverse)]
-        )
-        descriptor.fetchLimit = 3
-        _workouts = Query(descriptor)
-    }
-    
     var body: some View {
         NavigationStack {
-            if workouts.isEmpty {
+            if allWorkouts.isEmpty {
                     ContentUnavailableView {
                         Circle()
                             .frame(height: 55)
@@ -72,8 +66,8 @@ struct HomeMainView: View {
             } else {
                 ScrollView {
                     HomeChartView()
-                    Section(header: Text("Recent Workouts").font(.title3)) {
-                        ForEach(workouts) { workout in
+                    Section(header: Text("Recent Workouts").font(.title3.weight(.bold))) {
+                        ForEach(recentWorkouts) { workout in
                             StairmasterWorkoutCardView(workout: workout)
                         }
                     }
@@ -83,8 +77,29 @@ struct HomeMainView: View {
                 .safeAreaInset(edge: .top) {
                     HomeHeaderView(currentUser: currentUser!)
                 }
+                .onAppear {
+                    recentWorkouts = getThreeMostRecentWorkouts(workouts: allWorkouts)
+                }
             }
         }
+    }
+}
+
+extension HomeMainView {
+    func getThreeMostRecentWorkouts(workouts: [StairMasterWorkout]) -> [StairMasterWorkout] {
+        if workouts.isEmpty {
+            return []
+        }
+        
+        if workouts.count == 1 {
+            return [workouts[0]]
+        }
+        
+        if workouts.count == 2 {
+            return Array(workouts[0...1])
+        }
+        
+        return Array(workouts[0...2])
     }
 }
 
