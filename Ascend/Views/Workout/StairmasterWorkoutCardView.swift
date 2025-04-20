@@ -11,7 +11,7 @@ struct StairmasterWorkoutCardView: View {
     let workout: StairMasterWorkout
     
     var body: some View {
-        NavigationLink(destination: WorkoutDetailView()) {
+        NavigationLink(destination: WorkoutDetailView(workoutData: WorkoutFormData(from: workout))) {
             HStack {
                 leftColumnContent
                 Spacer()
