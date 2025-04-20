@@ -1,5 +1,5 @@
 //
-//  HomeHeaderView.swift
+//  DashboardHeaderView.swift
 //  Ascend
 //
 //  Created by Tyler Pavay on 2/21/25.
@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-struct HomeHeaderView: View {
+struct DashboardHeaderView: View {
     @State private var isImportWorkoutSheetPresented: Bool = false
     @State private var currentUser: AscendUser
     @State private var greetingText: String = ""
@@ -55,13 +55,13 @@ struct HomeHeaderView: View {
 
 #Preview {
     NavigationStack {
-        HomeHeaderView(currentUser: AscendUser())
+        DashboardHeaderView(currentUser: AscendUser())
             .preferredColorScheme(.light)
     }
 
 }
 
 #Preview {
-    HomeHeaderView(currentUser: AscendUser())
+    DashboardHeaderView(currentUser: AscendUser())
         .preferredColorScheme(.dark)
 }

@@ -10,7 +10,7 @@ struct BottomBar: View {
     
     var body: some View {
         TabView() {
-            HomeMainView()
+            DashboardView()
                 .tabItem() {
                     VStack {
                         Image(systemName: "house")

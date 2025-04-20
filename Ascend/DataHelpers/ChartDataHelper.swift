@@ -71,4 +71,18 @@ struct ChartDataHelper {
                 .init(date: Date.from(month: 1, day: 20, year: 2025), value: 20, metricType: .durationClimbed)
             ]
     }
+    
+    static func createStepsChartData() -> [ChartDataPoint] {
+        var data: [ChartDataPoint] = []
+        
+        data.append(ChartDataPoint(date: Date(), value: 1000))
+        data.append(ChartDataPoint(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, value: 1500))
+        data.append(ChartDataPoint(date: Calendar.current.date(byAdding: .day, value: -2, to: Date())!, value: 3000))
+        data.append(ChartDataPoint(date: Calendar.current.date(byAdding: .day, value: -3, to: Date())!, value: 1000))
+        data.append(ChartDataPoint(date: Calendar.current.date(byAdding: .day, value: -4, to: Date())!, value: 500))
+        data.append(ChartDataPoint(date: Calendar.current.date(byAdding: .day, value: -5, to: Date())!, value: 2500))
+        data.append(ChartDataPoint(date: Calendar.current.date(byAdding: .day, value: -6, to: Date())!, value: 5500))
+        
+        return data
+    }
 }

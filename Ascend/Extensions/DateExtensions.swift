@@ -89,6 +89,113 @@ extension Date {
         
         return dateFormatter.string(from: date)
     }
+    
+    
+    /// Returns the first day of the month for the current date.
+    /// - Returns: A Date representing the first day of the month at midnight.
+    func firstDayOfMonth() -> Date {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month], from: self)
+        return calendar.date(from: components)!
+    }
+    
+    /// Returns the last day of the month for the current date.
+    /// - Returns: A Date representing the last day of the month at midnight.
+    func lastDayOfMonth() -> Date {
+        let calendar = Calendar.current
+        let firstDay = self.firstDayOfMonth()
+        
+        var components = DateComponents()
+        components.month = 1
+        components.day = -1
+        
+        return calendar.date(byAdding: components, to: firstDay)!
+    }
+    
+    /// Returns the first day of the current month.
+    /// - Returns: A Date representing the first day of the current month at midnight.
+    static func firstDayOfCurrentMonth() -> Date {
+        return Date().firstDayOfMonth()
+    }
+    
+    /// Returns the last day of the current month.
+    /// - Returns: A Date representing the last day of the current month at midnight.
+    static func lastDayOfCurrentMonth() -> Date {
+        return Date().lastDayOfMonth()
+    }
+    
+    // MARK: - Week Operations
+    
+    /// Returns the first day of the week for the current date.
+    /// Respects the locale's first day of week setting (e.g., Sunday in US, Monday in Europe).
+    /// - Returns: A Date representing the first day of the week at midnight.
+    func firstDayOfWeek() -> Date {
+        let calendar = Calendar.current
+        var components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)
+        components.weekday = calendar.firstWeekday
+        
+        return calendar.date(from: components)!
+    }
+    
+    /// Returns the last day of the week for the current date.
+    /// Respects the locale's first day of week setting.
+    /// - Returns: A Date representing the last day of the week at midnight.
+    func lastDayOfWeek() -> Date {
+        let calendar = Calendar.current
+        let firstDay = self.firstDayOfWeek()
+        
+        var components = DateComponents()
+        components.day = 6 // Add 6 days to get to the last day of the week
+        
+        return calendar.date(byAdding: components, to: firstDay)!
+    }
+    
+    /// Returns the first day of the current week.
+    /// Respects the locale's first day of week setting.
+    /// - Returns: A Date representing the first day of the current week at midnight.
+    static func firstDayOfCurrentWeek() -> Date {
+        return Date().firstDayOfWeek()
+    }
+    
+    /// Returns the last day of the current week.
+    /// Respects the locale's first day of week setting.
+    /// - Returns: A Date representing the last day of the current week at midnight.
+    static func lastDayOfCurrentWeek() -> Date {
+        return Date().lastDayOfWeek()
+    }
+    
+    // MARK: - Year Operations
+    
+    /// Returns the first day of the year for the current date.
+    /// - Returns: A Date representing January 1st of the year at midnight.
+    func firstDayOfYear() -> Date {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year], from: self)
+        return calendar.date(from: components)!
+    }
+    
+    /// Returns the last day of the year for the current date.
+    /// - Returns: A Date representing December 31st of the year at midnight.
+    func lastDayOfYear() -> Date {
+        let calendar = Calendar.current
+        var components = DateComponents()
+        components.year = 1
+        components.day = -1
+        
+        return calendar.date(byAdding: components, to: self.firstDayOfYear())!
+    }
+    
+    /// Returns the first day of the current year.
+    /// - Returns: A Date representing January 1st of the current year at midnight.
+    static func firstDayOfCurrentYear() -> Date {
+        return Date().firstDayOfYear()
+    }
+    
+    /// Returns the last day of the current year.
+    /// - Returns: A Date representing December 31st of the current year at midnight.
+    static func lastDayOfCurrentYear() -> Date {
+        return Date().lastDayOfYear()
+    }
 }
 
 /// Represents different periods of the day based on the hour.

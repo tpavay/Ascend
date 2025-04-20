@@ -29,7 +29,7 @@ struct LabeledTextEditorView: View {
                 .focused($focusedField, equals: .notes)
                 .autocorrectionDisabled()
             if focusedField != .notes && notes.isEmpty {
-                Text("How'd it go? Share more about your stairmaster workout.")
+                Text("How'd it go? Share more about your stairmaster workout. (Optional)")
                     .foregroundStyle(.gray.opacity(0.6))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
@@ -40,20 +40,25 @@ struct LabeledTextEditorView: View {
     }
 }
 
-#Preview {
-    @Previewable @State var notes: String = ""
-    @Previewable @FocusState var focusedField: LogStairMasterWorkoutFormField?
-    
-    LabeledTextEditorView(notes: $notes, field: .notes, focusedField: $focusedField)
-        .preferredColorScheme(.light)
-}
-
-#Preview {
+#Preview("Light Mode") {
     @Previewable @State var notes: String = ""
     @Previewable @FocusState var focusedField: LogStairMasterWorkoutFormField?
     Form {
-        LabeledTextEditorView(notes: $notes, field: .notes, focusedField: $focusedField)
-            .preferredColorScheme(.dark)
+        ScrollView {
+            LabeledTextEditorView(notes: $notes, field: .notes, focusedField: $focusedField)
+        }
     }
+    .preferredColorScheme(.light)
+    
+}
 
+#Preview("Dark Mode") {
+    @Previewable @State var notes: String = ""
+    @Previewable @FocusState var focusedField: LogStairMasterWorkoutFormField?
+    Form {
+        ScrollView {
+            LabeledTextEditorView(notes: $notes, field: .notes, focusedField: $focusedField)
+        }
+    }
+    .preferredColorScheme(.dark)
 }

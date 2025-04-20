@@ -101,22 +101,44 @@ struct CustomTextButton: View {
     }
 }
 
-#Preview {
+#Preview("Light Mode") {
     VStack(spacing: 20) {
-            // Basic text-only button
-            CustomTextButton(buttonText: "Sign Up")
-            
-            // Bordered button
-            CustomTextButton(
-                buttonText: "Create Account",
-                buttonTextColor: .black,
-                isBorderedButton: true
-            )
-            
-            // Filled button with brand color
-            CustomTextButton(
-                buttonText: "Start Workout",
-                buttonTextColor: .white,
-                fillColor: .accentPrimary) // AccentPrimary Light Mode
-                }
+        // Basic text-only button
+        CustomTextButton(buttonText: "Sign Up", buttonTextColor: Color(UIColor.label))
+        
+        // Bordered button
+        CustomTextButton(
+            buttonText: "Create Account",
+            buttonTextColor: Color(UIColor.label),
+            isBorderedButton: true
+        )
+        
+        // Filled button with brand color
+        CustomTextButton(
+            buttonText: "Start Workout",
+            buttonTextColor: Color(UIColor.label),
+            fillColor: .accentPrimary) // AccentPrimary Light Mode
+    }
+    .preferredColorScheme(.light)
+}
+
+#Preview("Dark Mode") {
+    VStack(spacing: 20) {
+        // Basic text-only button
+        CustomTextButton(buttonText: "Sign Up", buttonTextColor: Color(UIColor.label))
+        
+        // Bordered button
+        CustomTextButton(
+            buttonText: "Create Account",
+            buttonTextColor: Color(UIColor.label),
+            isBorderedButton: true
+        )
+        
+        // Filled button with brand color
+        CustomTextButton(
+            buttonText: "Start Workout",
+            buttonTextColor: Color(UIColor.label),
+            fillColor: .accentPrimary) // AccentPrimary Dark Mode
+    }
+    .preferredColorScheme(.dark)
 }

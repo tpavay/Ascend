@@ -5,6 +5,8 @@
 //  Created by Tyler Pavay on 2/20/25.
 //
 
+import SwiftUI
+
 /// An enum used to represent the different metrics provided by a Stairmaster
 enum StairmasterMetric: CaseIterable {
     case stepsClimbed
@@ -27,6 +29,15 @@ enum StairmasterMetric: CaseIterable {
         case .floorsClimbed: return "building"
         case .caloriesBurned: return "flame"
         case .durationClimbed: return "clock"
+        }
+    }
+    
+    var color: Color {
+        switch self {
+        case .stepsClimbed: return .accentPrimary
+        case .floorsClimbed: return .accentSecondary
+        case .caloriesBurned: return .accentTertiary
+        case .durationClimbed: return .customBlue
         }
     }
 }

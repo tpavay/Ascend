@@ -49,7 +49,7 @@ struct StairmasterWorkoutCardView: View {
     
     private var workoutDate: some View {
         Text(Date.getTimeFrameString(from: workout.date))
-            .foregroundStyle(Color(UIColor.label))
+            .foregroundStyle(Color(UIColor.secondaryLabel))
             .fontWeight(.bold)
     }
     
@@ -117,7 +117,7 @@ struct StairmasterWorkoutCardView: View {
     
     private var durationView: some View {
         Text(String.secondsToMinutesString(seconds: workout.duration) + " min")
-            .font(.title.weight(.bold))
+            .font(.title2.weight(.bold))
             .foregroundStyle(Color(UIColor.label))
     }
     
