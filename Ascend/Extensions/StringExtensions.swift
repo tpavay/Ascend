@@ -63,4 +63,48 @@ extension String {
         
         return String(Int(seconds / 60))
     }
+    
+    static func convertDurationsInSecondsToHoursMinutesSecondsString(from duration: Int) -> String {
+        if duration <= 0 {
+            return "--"
+        }
+        
+        let hours = duration / 3600
+        let minutes = (duration % 3600) / 60
+        let seconds = duration % 60
+        
+        var components: [String] = []
+        
+        if hours > 0 {
+            components.append(getTimeMetricText(duration: hours, timeMetric: .hour))
+        }
+        
+        if minutes > 0 {
+            components.append(getTimeMetricText(duration: minutes, timeMetric: .minute))
+        }
+        
+        if seconds > 0 && (hours == 0) { // Only show seconds if less than an hour
+            components.append(getTimeMetricText(duration: seconds, timeMetric: .second))
+        }
+        
+        return components.joined(separator: " ")
+    }
+}
+
+private func getTimeMetricText(duration: Int, timeMetric: TimeMetric) -> String {
+    return "\(duration)\(timeMetric.shortText)"
+}
+
+enum TimeMetric: String {
+    case second
+    case minute
+    case hour
+    
+    var shortText: String {
+        switch self {
+        case .second: return "s"
+        case .minute: return "m"
+        case .hour: return "h"
+        }
+    }
 }

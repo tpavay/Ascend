@@ -9,6 +9,7 @@ import SwiftUI
 
 struct EmptyDashboardView: View {
     let currentUser: AscendUser
+    @State private var isLogWorkoutFormPresented: Bool = false
     
     var body: some View {
         ContentUnavailableView {
@@ -31,26 +32,19 @@ struct EmptyDashboardView: View {
                 Text("Log your first Stairmaster workout to see your progress")
                     .padding(.bottom, 12)
                 
-                NavigationLink(destination: LogStairmasterWorkoutMainView()) {
-                    HStack {
-                        Text("Log Workout")
-                        Image(systemName: "chevron.right")
-                    }
-                    .font(.headline)
-                    .fontWeight(.bold)
-                    .foregroundStyle(.white)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 55)
-                    .background(
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(.accentPrimary)
-                    )
-                    
-                }
+                CustomTextButton(
+                    buttonText: "Log Workout",
+                    buttonTextColor: .white,
+                    fillColor: .accentPrimary,
+                    action: {isLogWorkoutFormPresented = true}
+                )
             }
         }
     .safeAreaInset(edge: .top) {
         DashboardHeaderView(currentUser: currentUser)
+    }
+    .fullScreenCover(isPresented: $isLogWorkoutFormPresented) {
+        LogStairmasterWorkoutMainView()
     }
     }
 }

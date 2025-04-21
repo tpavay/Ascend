@@ -10,7 +10,7 @@ struct LogStairmasterWorkoutMainView: View {
     @Environment(\.dismiss) var dismiss
     
     @State private var date: Date = Date()
-    @State private var workoutName: String = ""
+    @State private var workoutName: String = Date.getTimeOfDay().rawValue + " Climb"
     @State private var duration: String = ""
     @State private var totalSteps: String = ""
     @State private var floorsClimbed: String = ""
@@ -39,6 +39,15 @@ struct LogStairmasterWorkoutMainView: View {
             .navigationTitle("Log Workout")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Image(systemName: "xmark")
+                            .foregroundColor(.accentPrimary)
+                    }
+                }
+                
                 ToolbarItem(placement: .keyboard) {
                     keyboardDismissButton
                 }
@@ -113,8 +122,14 @@ struct LogStairmasterWorkoutMainView: View {
     }
     
     private var submitButton: some View {
-        CustomTextButton(buttonText: "Submit", buttonTextColor: .white, fillColor: .accentPrimary, action: { submit() })
-            .disabled(duration.isEmpty)
+        CustomTextButton(
+            buttonText: "Submit",
+            buttonTextColor: .white,
+            fillColor: .accentPrimary,
+            action: { submit() }
+        )
+        .disabled(duration.isEmpty)
+        .buttonStyle(.plain)
     }
     
     private var keyboardDismissButton: some View {
@@ -133,7 +148,7 @@ struct LogStairmasterWorkoutMainView: View {
         let convertedDuration = duration.toTimeInterval()
         
        
-        let stairMasterWorkout = StairMasterWorkout(workoutName: workoutName, date: date, duration: convertedDuration, floorsClimbed: Int(floorsClimbed), totalSteps: Int(totalSteps), workoutSource: .manualEntry, notes: notes)
+        let stairMasterWorkout = StairMasterWorkout(workoutName: workoutName, date: date, duration: convertedDuration, floorsClimbed: Int(floorsClimbed), totalSteps: Int(totalSteps), caloriesBurned: Double(caloriesBurned), workoutSource: .manualEntry, notes: notes)
         modelContext.insert(stairMasterWorkout)
         
         // Save changes (optional but recommended)

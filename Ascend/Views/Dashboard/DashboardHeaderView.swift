@@ -10,6 +10,7 @@ import SwiftUI
 
 struct DashboardHeaderView: View {
     @State private var isImportWorkoutSheetPresented: Bool = false
+    @State private var isLogWorkoutFormPresented: Bool = false
     @State private var currentUser: AscendUser
     @State private var greetingText: String = ""
     
@@ -29,11 +30,10 @@ struct DashboardHeaderView: View {
             }
             Spacer()
             HStack(spacing: 16) {
-                NavigationLink(destination: LogStairmasterWorkoutMainView()) {
-                    Image(systemName: "plus.square")
-                        
-                }
-                .foregroundStyle(.primary)
+                Image(systemName: "plus.square")
+                    .onTapGesture {
+                        isLogWorkoutFormPresented = true
+                    }
                 Image(systemName: "bell")
                     .onTapGesture {
                         isImportWorkoutSheetPresented = true
@@ -45,6 +45,9 @@ struct DashboardHeaderView: View {
         .background(Color(UIColor.systemBackground))
         .popover(isPresented: $isImportWorkoutSheetPresented, content: {
             Text("Import workouts")
+        })
+        .fullScreenCover(isPresented: $isLogWorkoutFormPresented, content: {
+            LogStairmasterWorkoutMainView()
         })
         .onAppear {
             let timeOfDayText = "Good \(Date.getTimeOfDay().rawValue)"

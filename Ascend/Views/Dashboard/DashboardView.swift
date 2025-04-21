@@ -55,6 +55,9 @@ struct DashboardView: View {
                 .onAppear {
                     recentWorkouts = getThreeMostRecentWorkouts()
                 }
+                .onChange(of: allWorkouts) { _, _ in
+                    recentWorkouts = getThreeMostRecentWorkouts()
+                }
             }
         }
     }
