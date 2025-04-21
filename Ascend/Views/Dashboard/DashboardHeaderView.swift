@@ -44,7 +44,7 @@ struct DashboardHeaderView: View {
         .padding(.horizontal)
         .background(Color(UIColor.systemBackground))
         .popover(isPresented: $isImportWorkoutSheetPresented, content: {
-            Text("Import workouts")
+            ImportWorkoutsView()
         })
         .fullScreenCover(isPresented: $isLogWorkoutFormPresented, content: {
             LogStairmasterWorkoutMainView()

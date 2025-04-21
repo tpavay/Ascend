@@ -17,14 +17,12 @@ struct BottomBar: View {
                         Text("Home")
                     }
                 }
-            WorkoutMainView()
+            WorkoutHistoryView()
                 .tabItem {
                     VStack {
-                        Image(systemName: "figure.stair.stepper")
-                        Text("Workout")
-                            
+                        Image(systemName: "clock")
+                        Text("History")
                     }
-                    
                 }
             
             ProfileMainView()
