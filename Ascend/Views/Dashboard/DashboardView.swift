@@ -15,28 +15,28 @@ struct ChartDataPoint {
 }
 
 struct DashboardView: View {
-    @Query private var users: [AscendUser]
-    
+    // Commenting for now because we aren't going to save user yet
+    //@Query private var users: [AscendUser]
+
     /// Query for all StairMaster workouts and sort them from newest to oldest date
     @Query(sort: \StairMasterWorkout.date, order: .reverse) private var allWorkouts: [StairMasterWorkout]
     
     @State private var recentWorkouts: [StairMasterWorkout] = []
-    
-    private var currentUser: AscendUser? {
-        return users.first!
-    }
+
+    // commenting because we aren't working with users yet
+//    private var currentUser: AscendUser? {
+//        return users.first!
+//    }
     
     var body: some View {
         NavigationStack {
             if allWorkouts.isEmpty {
-                EmptyDashboardView(currentUser: currentUser!)
+                EmptyDashboardView()
             } else {
                 ScrollView {
+
+                    DashboardChartView(allWorkouts: allWorkouts)
                     
-                    // Need at least two points to show chart data
-                    if allWorkouts.count >= 2 {
-                        DashboardChartView(allWorkouts: allWorkouts)
-                    }
                     
                     Section(header: Text("Recent Workouts").font(.title3.weight(.bold))) {
                         VStack(spacing: 16) {
@@ -50,7 +50,7 @@ struct DashboardView: View {
                     .padding(.horizontal)
                 }
                 .safeAreaInset(edge: .top) {
-                    DashboardHeaderView(currentUser: currentUser!)
+                    DashboardHeaderView()
                 }
                 .onAppear {
                     recentWorkouts = getThreeMostRecentWorkouts()

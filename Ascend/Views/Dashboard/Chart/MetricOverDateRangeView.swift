@@ -12,7 +12,7 @@ struct MetricOverDateRangeView: View {
     /// The metric total to display
     ///
     /// Example: 1000 steps.
-    var metricTotal: Int
+    var metricTotal: String
     
     /// The type of metric we are displaying
     var metric: StairmasterMetric
@@ -29,7 +29,7 @@ struct MetricOverDateRangeView: View {
     }
     
     private var metricTotalText: some View {
-        Text("\(metricTotal)")
+        Text(metricTotal)
             .font(.system(size: 48)).fontWeight(.heavy)
             .foregroundStyle(getMetricTextColor(displayedMetric: metric))
     }
@@ -55,20 +55,20 @@ struct MetricOverDateRangeView: View {
 
 #Preview("Light Mode") {
     NavigationStack {
-        MetricOverDateRangeView(metricTotal: 0, metric: .stepsClimbed, dateRange: .weekly)
-        MetricOverDateRangeView(metricTotal: 0, metric: .floorsClimbed, dateRange: .monthly)
-        MetricOverDateRangeView(metricTotal: 0, metric: .caloriesBurned, dateRange: .yearly)
-        MetricOverDateRangeView(metricTotal: 0, metric: .durationClimbed, dateRange: .allTime)
+        MetricOverDateRangeView(metricTotal: "0", metric: .stepsClimbed, dateRange: .weekly)
+        MetricOverDateRangeView(metricTotal: "0", metric: .floorsClimbed, dateRange: .monthly)
+        MetricOverDateRangeView(metricTotal: "0", metric: .caloriesBurned, dateRange: .yearly)
+        MetricOverDateRangeView(metricTotal: "0", metric: .durationClimbed, dateRange: .allTime)
     }
     .preferredColorScheme(.light)
 }
 
 #Preview("Dark Mode") {
     NavigationStack {
-        MetricOverDateRangeView(metricTotal: 0, metric: .stepsClimbed, dateRange: .weekly)
-        MetricOverDateRangeView(metricTotal: 0, metric: .floorsClimbed, dateRange: .monthly)
-        MetricOverDateRangeView(metricTotal: 0, metric: .caloriesBurned, dateRange: .yearly)
-        MetricOverDateRangeView(metricTotal: 0, metric: .durationClimbed, dateRange: .allTime)
+        MetricOverDateRangeView(metricTotal: "0", metric: .stepsClimbed, dateRange: .weekly)
+        MetricOverDateRangeView(metricTotal: "0", metric: .floorsClimbed, dateRange: .monthly)
+        MetricOverDateRangeView(metricTotal: "0", metric: .caloriesBurned, dateRange: .yearly)
+        MetricOverDateRangeView(metricTotal: "0", metric: .durationClimbed, dateRange: .allTime)
     }
     .preferredColorScheme(.dark)
 }

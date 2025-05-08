@@ -9,7 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct GetStartedView: View {
-    /// The model context used to persist the anonymous user when they they first open the app
+    /// The model context used to persist the anonymous user when they first open the app
     @Environment(\.modelContext) private var modelContext: ModelContext
     
     var body: some View {
@@ -34,13 +34,23 @@ struct GetStartedView: View {
     }
     
     var content: some View {
-        VStack {
+        VStack(spacing: 20) {
             // Push this stack to the bottom
             Spacer()
             titleAndSubtitle
-            ctaButton
-            .padding(.horizontal, 40)
-            .padding(.bottom, 50) // Add some space at the bottom
+            NavigationLink(
+                destination: GetFirstNameView(),
+                label: {
+                    Text("Get Started")
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                        )
+                }
+            )
         }
         .padding()
     }
@@ -57,26 +67,26 @@ struct GetStartedView: View {
                 .foregroundStyle(.white)
         }
     }
-    
+
     /// Call-to-action button that creates a new anonymous user when pressed
-    var ctaButton: some View {
-        CustomTextButton(buttonText: "Get Started",
-                         buttonTextColor: .white,
-                         fillColor: .accentPrimary,
-                         isBorderedButton: false,
-                         action: createNewAnonymousUser)
-    }
+//    var ctaButton: some View {
+//        CustomTextButton(buttonText: "Get Started",
+//                         buttonTextColor: .white,
+//                         fillColor: .accentPrimary,
+//                         isBorderedButton: false,
+//                         action: createNewAnonymousUser)
+//    }
     
     /// Function that creates a new AscendUser and inserts it into the SwiftData database
     ///
     /// The Ascend user is anonymous by default. This function also updates the hasLaunchedAppBefore
     /// to true in UserDefaults so that the Get Started page isn't shown to the user again after they first
     /// launch.
-    private func createNewAnonymousUser() {
-        let user = AscendUser()
-        modelContext.insert(user)
-        UserDefaults.standard.set(true, forKey: "hasLaunchedAppBefore")
-    }
+//    private func createNewAnonymousUser() {
+//        let user = AscendUser()
+//        modelContext.insert(user)
+//        UserDefaults.standard.set(true, forKey: "hasLaunchedAppBefore")
+//    }
 }
 
 #Preview {

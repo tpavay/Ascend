@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_9" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="LaunchScreenBackground" translatesAutoresizingMaskIntoConstraints="NO" id="C0W-wv-Tsz">
+                                <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppIconInternal" translatesAutoresizingMaskIntoConstraints="NO" id="xJr-YO-VQ1">
+                                <rect key="frame" x="24" y="-34" width="392" height="1024"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ascend" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="plX-T4-neY">
+                                <rect key="frame" x="164.66666666666666" y="670" width="110.99999999999997" height="41"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
+                        <color key="tintColor" name="AccentPrimary"/>
+                        <constraints>
+                            <constraint firstItem="xJr-YO-VQ1" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" constant="24" id="1eX-2j-7dm"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="xJr-YO-VQ1" secondAttribute="trailing" constant="24" id="3vm-Jc-nj5"/>
+                            <constraint firstItem="plX-T4-neY" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="6PU-Wz-yWn"/>
+                            <constraint firstItem="xJr-YO-VQ1" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="BeO-6g-WxB"/>
+                            <constraint firstItem="xJr-YO-VQ1" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="aGz-jk-DK3"/>
+                            <constraint firstItem="plX-T4-neY" firstAttribute="top" secondItem="xJr-YO-VQ1" secondAttribute="bottom" constant="-320" id="oNx-vv-Pf2"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="51.81818181818182" y="374.05857740585776"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="AppIconInternal" width="1024" height="1024"/>
+        <image name="LaunchScreenBackground" width="1452" height="1654"/>
+        <namedColor name="AccentPrimary">
+            <color red="0.59999999999999998" green="0.0" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

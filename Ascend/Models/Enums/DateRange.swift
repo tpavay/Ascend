@@ -7,12 +7,14 @@
 
 import SwiftUI
 
+/// Enum that represents a date range and it's associated descriptions
 enum DateRange: CaseIterable {
     case weekly
     case monthly
     case yearly
     case allTime
     
+    /// Short description used to describe the date range
     var description: String {
         switch self {
             case .weekly: return "weekly"
@@ -22,6 +24,7 @@ enum DateRange: CaseIterable {
         }
     }
     
+    /// Long description used to describe the date range
     var longDescription: String {
         switch self {
             case .weekly: return "this week"
@@ -31,6 +34,7 @@ enum DateRange: CaseIterable {
         }
     }
     
+    /// Color associated with the date range
     var color: Color {
         switch self {
         case .weekly: return .accentPrimary

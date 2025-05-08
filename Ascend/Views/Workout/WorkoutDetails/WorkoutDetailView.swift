@@ -23,11 +23,25 @@ struct WorkoutFormData {
         workoutName = workout.workoutName
         date = workout.date
         duration = String.convertDurationsInSecondsToHoursMinutesSecondsString(from: Int(workout.duration))
-        floorsClimbed = "\(workout.floorsClimbed ?? 0)"
-        totalSteps = "\(workout.totalSteps ?? 0)"
-        caloriesBurned = "\(Int(workout.caloriesBurned ?? 0))"
         notes = workout.notes
         workoutSource = workout.workoutSource.description
+        caloriesBurned = getDisplayTextForMetric(workout.caloriesBurned)
+        floorsClimbed = getDisplayTextForMetric(workout.floorsClimbed)
+        totalSteps = getDisplayTextForMetric(workout.totalSteps)
+    }
+    
+    private func getDisplayTextForMetric(_ value: Double?) -> String {
+        guard let value else {
+            return "--"
+        }
+        return "\(Int(value))"
+    }
+    
+    private func getDisplayTextForMetric(_ value: Int?) -> String {
+        guard let value else {
+            return "--"
+        }
+        return "\(value)"
     }
 }
 

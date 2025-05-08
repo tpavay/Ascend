@@ -10,72 +10,71 @@ import HealthKit
 
 struct ImportWorkoutsView: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(\.modelContext) private var modelContext
     
-    @State private var workouts: [StairMasterWorkout] = []
-    let healthKitManager = HealthKitManager.shared
+    @State private var thirdPartyWorkouts: [ThirdPartyWorkout] = []
+    //let healthKitManager = HealthKitManager.shared
     @State private var isLoading: Bool = false
     @State var isError: Bool = false
     @State var errorString: String = ""
     @State var errorDescription: String = ""
-    @State var hkWorkouts: [HKWorkout] = []
+    @State private var monitoringTask: Task<Void, Never>?
+    
     var body: some View {
         NavigationStack {
             VStack {
                 if isLoading {
+                    ProgressView()
                     Text("Loading workouts...")
+                        .padding()
                 }
-
+                
                 if isError {
                     errorContent
                 }
                 
-                if !hkWorkouts.isEmpty {
-                    ForEach(hkWorkouts, id: \.self) { workout in
-                        Text("Duration \(workout.duration)")
-                        Text("ActivityType\(workout.workoutActivityType)")
-                        Divider()
+                if !isLoading && !isError {
+                    if thirdPartyWorkouts.isEmpty {
+                        VStack {
+                            Text("No StairMaster workouts found")
+                                .font(.headline)
+                            Text("Record workouts with Apple Fitness and they'll appear here")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                                .multilineTextAlignment(.center)
+                                .padding()
+                        }
+                        .padding()
+                    } else {
+                        ScrollView {
+                            VStack(spacing: 0) {
+                                ForEach(thirdPartyWorkouts, id: \.startDate) { workout in
+                                    ImportWorkoutsCellView(workout: workout)
+                                }
+                            }
+                        }
                     }
                 }
             }
             .navigationTitle("Import Workouts")
             .navigationBarTitleDisplayMode(.inline)
-            .task {
-                do {
-                    isLoading = true
-                    try await healthKitManager.requestHealthKitWorkoutsAccess()
-                    let importedWorkouts = try await healthKitManager.fetchAllWorkouts()
-                    isLoading = false
-                    
-                    for workout in importedWorkouts {
-                        hkWorkouts.append(workout)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        dismiss()
                     }
-                }
-                catch let error as HealthKitError {
-                    switch error {
-                    case .healthKitUnavailable:
-                        errorString = HealthKitError.healthKitUnavailable.description
-                        errorDescription = "This device doesn't support HealthKit integration, which means workout importing is unavailable."
-                    case .errorFetchingWorkouts:
-                        errorString = HealthKitError.errorFetchingWorkouts.description
-                        errorDescription = "There was an error fetching stair stepper workouts from health kit."
-                    }
-                    isError = true
-                }
-                catch {
-                    errorString = "Unexpected error occurred."
-                    isError = true
                 }
             }
+//            .task {
+//                await startMonitoring()
+//            }
+//            .onAppear {
+//                startMonitoring()
+//            }
+//            .onDisappear {
+//                monitoringTask?.cancel()
+//            }
         }
-    
-
-    }
-    
-    private var errorButton: some View {
-        Text("Return to Dashboard")
-            .onTapGesture {
-                dismiss()
-            }
     }
     
     private var errorContent: some View {
@@ -85,7 +84,8 @@ struct ImportWorkoutsView: View {
                 buttonText: "Return to Dashboard",
                 buttonTextColor: .white,
                 fillColor: .accentPrimary,
-                action: { dismiss()})
+                action: { dismiss() }
+            )
         }
         .buttonStyle(.plain)
         .padding()

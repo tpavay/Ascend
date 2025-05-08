@@ -1,16 +1,19 @@
-//  LogStairmasterWorkoutView.swift
+//  LogWorkoutView.swift
 //  Created by Tyler Pavay on 2/10/25.
 
 import SwiftData
 import SwiftUI
 
-struct LogStairmasterWorkoutMainView: View {
+struct LogWorkoutView: View {
+    // MARK: Environment Variables
     @Environment(\.modelContext) var modelContext
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
-    
-    @State private var date: Date = Date()
-    @State private var workoutName: String = Date.getTimeOfDay().rawValue + " Climb"
+
+    // MARK: State Properties
+    /// ViewModel that manages that state and business logic for this view
+    @State var viewModel = LogWorkoutViewModel()
+
     @State private var duration: String = ""
     @State private var totalSteps: String = ""
     @State private var floorsClimbed: String = ""
@@ -49,7 +52,7 @@ struct LogStairmasterWorkoutMainView: View {
                 }
                 
                 ToolbarItem(placement: .keyboard) {
-                    keyboardDismissButton
+                    KeyboardDismissButton()
                 }
             }
         }
@@ -71,11 +74,11 @@ struct LogStairmasterWorkoutMainView: View {
     }
     
     private var workoutNameField: some View {
-        LabeledTextField(label: "", placeholder: "Workout Name (Optional)", text: $workoutName, field: .workoutName, focusedField: $focusedField)
+        LabeledTextField(label: "", placeholder: "Workout Name (Optional)", text: $viewModel.workoutName, field: .workoutName, focusedField: $focusedField)
     }
     
     private var workoutDateField: some View {
-        CustomDatePickerField(date: $date)
+        CustomDatePickerField(date: $viewModel.date)
     }
     
     private var workoutNotesField: some View {
@@ -132,23 +135,13 @@ struct LogStairmasterWorkoutMainView: View {
         .buttonStyle(.plain)
     }
     
-    private var keyboardDismissButton: some View {
-        HStack {
-            Spacer()
-            Image(systemName: "keyboard.chevron.compact.down")
-                .foregroundStyle(.accentPrimary)
-                .padding(.trailing)
-                .onTapGesture {
-                    hideKeyboard()
-                }
-        }
-    }
+    
 
     private func submit() {
         let convertedDuration = duration.toTimeInterval()
         
        
-        let stairMasterWorkout = StairMasterWorkout(workoutName: workoutName, date: date, duration: convertedDuration, floorsClimbed: Int(floorsClimbed), totalSteps: Int(totalSteps), caloriesBurned: Double(caloriesBurned), workoutSource: .manualEntry, notes: notes)
+        let stairMasterWorkout = StairMasterWorkout(workoutName: viewModel.workoutName, date: viewModel.date, duration: convertedDuration, floorsClimbed: Int(floorsClimbed), totalSteps: Int(totalSteps), caloriesBurned: Double(caloriesBurned), workoutSource: .manualEntry, notes: notes)
         modelContext.insert(stairMasterWorkout)
         
         // Save changes (optional but recommended)
@@ -169,11 +162,11 @@ struct LogStairmasterWorkoutMainView: View {
 }
 
 #Preview("Light Mode") {
-    LogStairmasterWorkoutMainView()
+    LogWorkoutView()
         .preferredColorScheme(.light)
 }
 
 #Preview("Dark Mode") {
-    LogStairmasterWorkoutMainView()
+    LogWorkoutView()
     .preferredColorScheme(.dark)
 }

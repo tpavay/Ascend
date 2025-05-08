@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct EmptyDashboardView: View {
-    let currentUser: AscendUser
+    // Commenting out because not using current user rn
+    //let currentUser: AscendUser
     @State private var isLogWorkoutFormPresented: Bool = false
     
     var body: some View {
@@ -41,10 +42,11 @@ struct EmptyDashboardView: View {
             }
         }
     .safeAreaInset(edge: .top) {
-        DashboardHeaderView(currentUser: currentUser)
+//        DashboardHeaderView(currentUser: currentUser)
+        DashboardHeaderView()
     }
     .fullScreenCover(isPresented: $isLogWorkoutFormPresented) {
-        LogStairmasterWorkoutMainView()
+        LogWorkoutView()
     }
     }
 }

@@ -23,7 +23,7 @@ struct StairmasterWorkoutCardView: View {
             .background(
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color(UIColor.systemBackground))
-                    .shadow(color: Color(UIColor.label).opacity(0.1), radius: 5)
+                    .shadow(color: Color(UIColor.label).opacity(0.3), radius: 4)
             )
         }
     }

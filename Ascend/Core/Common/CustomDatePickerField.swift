@@ -89,7 +89,6 @@ struct CustomDatePickerField: View {
                     pickerComponents: pickerComponents
                 )
             }
-            .prefersPersistentSystemOverlaysHidden()
         }
     }
 }

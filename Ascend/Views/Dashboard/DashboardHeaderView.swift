@@ -11,17 +11,22 @@ import SwiftUI
 struct DashboardHeaderView: View {
     @State private var isImportWorkoutSheetPresented: Bool = false
     @State private var isLogWorkoutFormPresented: Bool = false
-    @State private var currentUser: AscendUser
+
+
+    // commenting out because we aren't working with user yet
+    //@State private var currentUser: AscendUser
     @State private var greetingText: String = ""
     
-    init(currentUser: AscendUser) {
-        self.currentUser = currentUser
-    }
+//    init(currentUser: AscendUser) {
+//        self.currentUser = currentUser
+//    }
     
     var body: some View {
         HStack {
             HStack(spacing: 12) {
-                ProfilePictureView(url: currentUser.profilePictureURL ?? "")
+                // Just make profile picture default for now
+                ProfilePictureView(url: nil)
+//                ProfilePictureView(url: currentUser.profilePictureURL ?? "")
                 
                 Text(greetingText)
                     .font(.title2)
@@ -47,24 +52,24 @@ struct DashboardHeaderView: View {
             ImportWorkoutsView()
         })
         .fullScreenCover(isPresented: $isLogWorkoutFormPresented, content: {
-            LogStairmasterWorkoutMainView()
+            LogWorkoutView()
         })
         .onAppear {
-            let timeOfDayText = "Good \(Date.getTimeOfDay().rawValue)"
-            greetingText = currentUser.firstName != nil && currentUser.firstName != "" ? "\(timeOfDayText) \(currentUser.firstName!)" : timeOfDayText
+//            let timeOfDayText = "Good \(Date.getTimeOfDay().rawValue)"
+//            greetingText = currentUser.firstName != nil && currentUser.firstName != "" ? "\(timeOfDayText) \(currentUser.firstName!)" : timeOfDayText
+
         }
     }
 }
 
-#Preview {
+#Preview("Light Mode") {
     NavigationStack {
-        DashboardHeaderView(currentUser: AscendUser())
+        DashboardHeaderView()
             .preferredColorScheme(.light)
     }
-
 }
 
-#Preview {
-    DashboardHeaderView(currentUser: AscendUser())
+#Preview("Dark Mode") {
+    DashboardHeaderView()
         .preferredColorScheme(.dark)
 }

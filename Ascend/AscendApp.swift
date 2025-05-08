@@ -11,7 +11,7 @@ import SwiftUI
 struct AscendApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AppView()
                 .modelContainer(for: [AscendUser.self, StairMasterWorkout.self])
         }
     }
