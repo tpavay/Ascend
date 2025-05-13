@@ -14,16 +14,7 @@ struct LogWorkoutView: View {
     /// ViewModel that manages that state and business logic for this view
     @State var viewModel = LogWorkoutViewModel()
 
-    @State private var duration: String = ""
-    @State private var totalSteps: String = ""
-    @State private var floorsClimbed: String = ""
-    @State private var caloriesBurned: String = ""
-    @State private var notes: String = ""
-    @State private var avgHeartRate: String = ""
-    @State private var maxHeartRate: String = ""
-    @State private var isShowingHeartRateFields: Bool = false
-    @State private var isShowingIntensityField: Bool = false
-    @State private var intensityLevel: Double = 3
+    
     @FocusState private var focusedField: LogStairMasterWorkoutFormField?
 
     var body: some View {
@@ -32,10 +23,18 @@ struct LogWorkoutView: View {
                 VStack(spacing: 20) {
                     generalInfoSection
                     workoutStatsSection
-                    submitButton
-                        .padding(.top, 12)
                 }
+
             }
+            .safeAreaInset(edge: .bottom, content: {
+                VStack {
+                    submitButton
+                        .padding(.horizontal)
+                }
+                .padding()
+                .background(.thinMaterial)
+
+            })
             .padding(.horizontal, -20)
             .scrollContentBackground(.hidden)
             .background(colorScheme == .light ? .clear: .darkModeFormBackground)
@@ -74,15 +73,15 @@ struct LogWorkoutView: View {
     }
     
     private var workoutNameField: some View {
-        LabeledTextField(label: "", placeholder: "Workout Name (Optional)", text: $viewModel.workoutName, field: .workoutName, focusedField: $focusedField)
+        LabeledTextField(label: "", placeholder: "", text: $viewModel.workoutName, field: .workoutName, focusedField: $focusedField)
     }
     
     private var workoutDateField: some View {
         CustomDatePickerField(date: $viewModel.date)
     }
-    
+
     private var workoutNotesField: some View {
-        LabeledTextEditorView(notes: $notes, field: .notes, focusedField: $focusedField)
+        LogWorkoutTextEditorView(notes: $viewModel.workoutNotes, field: .notes, focusedField: $focusedField)
     }
     
     private var workoutStatsSectionHeader: some View {
@@ -102,46 +101,61 @@ struct LogWorkoutView: View {
                 totalStepsField
                 floorsClimbedField
             }
+            HStack {
+                avgHeartRateField
+                maxHeartRateField
+            }
         }
     }
     
     private var durationField: some View {
-        DurationField(userEnteredDuration: $duration, focusedField: $focusedField, field: .duration)
+        DurationField(userEnteredDuration: $viewModel.duration, focusedField: $focusedField, field: .duration)
     }
     
     private var caloriesField: some View {
-        LabeledTextField(label: "Calories", placeholder: "0", text: $caloriesBurned, isOptional: true, field: .caloriesBurned, focusedField: $focusedField)
+        LabeledTextField(label: "Calories", placeholder: "0", text: $viewModel.caloriesBurned, isOptional: true, field: .caloriesBurned, focusedField: $focusedField)
             .keyboardType(.numberPad)
     }
     
     private var totalStepsField: some View {
-        LabeledTextField(label: "Total Steps", placeholder: "0", text: $totalSteps, isOptional: true, field: .totalSteps, focusedField: $focusedField)
+        LabeledTextField(label: "Total Steps", placeholder: "0", text: $viewModel.totalSteps, isOptional: true, field: .totalSteps, focusedField: $focusedField)
             .keyboardType(.numberPad)
     }
     
     private var floorsClimbedField: some View {
-        LabeledTextField(label: "Floors Climbed", placeholder: "0", text: $floorsClimbed, isOptional: true, field: .floorsClimbed, focusedField: $focusedField)
+        LabeledTextField(label: "Floors Climbed", placeholder: "0", text: $viewModel.floorsClimbed, isOptional: true, field: .floorsClimbed, focusedField: $focusedField)
             .keyboardType(.numberPad)
     }
-    
+
+    private var avgHeartRateField: some View {
+        LabeledTextField(label: "Avg Heart Rate", placeholder: "0", text: $viewModel.avgHeartRate, isOptional: true, field: .avgHeartRate, focusedField: $focusedField)
+            .keyboardType(.numberPad)
+    }
+
+    private var maxHeartRateField: some View {
+        LabeledTextField(label: "Max Heart Rate", placeholder: "0", text: $viewModel.maxHeartRate, isOptional: true, field: .maxHeartRate, focusedField: $focusedField)
+            .keyboardType(.numberPad)
+    }
+
+
     private var submitButton: some View {
         CustomTextButton(
-            buttonText: "Submit",
+            buttonText: "Save",
             buttonTextColor: .white,
             fillColor: .accentPrimary,
             action: { submit() }
         )
-        .disabled(duration.isEmpty)
+        .disabled(viewModel.duration.isEmpty)
         .buttonStyle(.plain)
     }
     
     
 
     private func submit() {
-        let convertedDuration = duration.toTimeInterval()
+        let convertedDuration = viewModel.duration.toTimeInterval()
         
        
-        let stairMasterWorkout = StairMasterWorkout(workoutName: viewModel.workoutName, date: viewModel.date, duration: convertedDuration, floorsClimbed: Int(floorsClimbed), totalSteps: Int(totalSteps), caloriesBurned: Double(caloriesBurned), workoutSource: .manualEntry, notes: notes)
+        let stairMasterWorkout = StairMasterWorkout(workoutName: viewModel.workoutName, date: viewModel.date, duration: convertedDuration, floorsClimbed: Int(viewModel.floorsClimbed), totalSteps: Int(viewModel.totalSteps), caloriesBurned: Double(viewModel.caloriesBurned), workoutSource: .manualEntry, notes: viewModel.workoutNotes)
         modelContext.insert(stairMasterWorkout)
         
         // Save changes (optional but recommended)

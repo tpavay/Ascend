@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LabeledTextEditorView: View {
+struct LogWorkoutTextEditorView: View {
     @Binding var notes: String
     var field: LogStairMasterWorkoutFormField
     @FocusState.Binding var focusedField: LogStairMasterWorkoutFormField?
@@ -45,7 +45,7 @@ struct LabeledTextEditorView: View {
     @Previewable @FocusState var focusedField: LogStairMasterWorkoutFormField?
     Form {
         ScrollView {
-            LabeledTextEditorView(notes: $notes, field: .notes, focusedField: $focusedField)
+            LogWorkoutTextEditorView(notes: $notes, field: .notes, focusedField: $focusedField)
         }
     }
     .preferredColorScheme(.light)
@@ -57,7 +57,7 @@ struct LabeledTextEditorView: View {
     @Previewable @FocusState var focusedField: LogStairMasterWorkoutFormField?
     Form {
         ScrollView {
-            LabeledTextEditorView(notes: $notes, field: .notes, focusedField: $focusedField)
+            LogWorkoutTextEditorView(notes: $notes, field: .notes, focusedField: $focusedField)
         }
     }
     .preferredColorScheme(.dark)

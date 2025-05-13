@@ -51,12 +51,13 @@ struct AppView: View {
     @AppStorage("showTabBar") private var showTabBar = false
 
     var body: some View {
-        if showTabBar {
-            BottomBar()
-        }
-        else {
-            GetStartedView()
-        }
+//        if showTabBar {
+//            BottomBar()
+//        }
+//        else {
+//            GetStartedView()
+//        }
+        BottomBar()
     }
 }
 
